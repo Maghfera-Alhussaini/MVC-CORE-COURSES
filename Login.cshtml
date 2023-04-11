@@ -1,0 +1,88 @@
+﻿@page
+@model LoginModel
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Log in";
+}
+<html>
+<head>
+    <link href="~/css/loginStyle.css" rel="stylesheet" />
+    <title>Login</title>
+    <script src="https://kit.fontawesome.com/b18a876abe.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+    <img src="~/images/لوغوه.png" alt="" class="logo">
+    <div class="container" >
+        <div class="header">
+            <h1 class="log">Welcome</h1>
+            <div class="line"></div>
+        </div>
+        <div class="main"></div>
+        <form method="post">
+
+
+            <span>
+
+                <input asp-for="Input.Email" placeholder="Username" style="color: #395B64;" />
+                <span asp-validation-for="Input.Email"  style="color:yellow"></span>
+            </span>
+            <br>
+            <span class="eye" onclick="Show1()">
+                <i id="hide1" class="fa fa-eye" style="color: #395B64;"></i>
+                <i id="hide2" class="fa fa-eye-slash" style="color: #395B64;"></i>
+            </span>
+            <span>
+
+                <input type="password" asp-for="Input.Password" placeholder="Password" style="color: #395B64;" id="myInput" />
+                <span asp-validation-for="Input.Password" style="color:yellow"></span>
+            </span>
+            <div asp-validation-summary="All" style="color:yellow"></div>
+
+            <a id="forgot-password" asp-page="./ForgotPassword" class="ref1">Forgot your password?</a> <br />
+            <button type="submit" class="btn">Log in</button>
+        </form>
+        <div style="margin-left:40px">
+            <span style="color: #395B64;">
+                @Html.DisplayNameFor(m => m.Input.RememberMe)
+            </span>
+            <input asp-for="Input.RememberMe" style="width:10px; height:10px" />
+        </div><br />
+        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="ref">not a member ? <span class="sign-up-btn" style="font-weight: bold;"> Sign Up </span></a>
+
+
+
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+    <script src="~/js/eye.js"></script>
+</body>
+</html>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

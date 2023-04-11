@@ -1,0 +1,114 @@
+﻿@page
+@model RegisterModel
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Register";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/loginStyle.css">
+    <title>Register </title>
+    <script src="https://kit.fontawesome.com/b18a876abe.js" crossorigin="anonymous"></script>
+    <link el="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+
+    <div class="container">
+
+        <img src="~/images/لوغوه.png" alt="" class="logo">
+        <div class="main"></div>
+        <div class="header">
+            <h1 class="log">Sign Up</h1>
+            <div class="line"></div>
+        </div>
+
+
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+            <span>
+                <input asp-for="Input.firstName" type="text" placeholder="First Name" style="color: #395B64;" maxlength="100">
+                <span asp-validation-for="Input.firstName" style="color:yellow"></span>
+            </span>
+            <br>
+
+            <span>
+                <input asp-for="Input.lastName" type="text" placeholder="Last Name" style="color: #395B64;" maxlength="100">
+                <span asp-validation-for="Input.lastName" style="color:yellow"></span>
+            </span>
+            <br>
+
+            <span>
+                <input asp-for="Input.Email" type="email" placeholder="Email" style="color: #395B64;">
+                <span asp-validation-for="Input.Email" style="color:yellow"></span>
+            </span>
+            <br>
+
+            <span>
+                <input asp-for="Input.PhoneNumber" type="number" placeholder="PhoneNumber" style="color: #395B64;">
+                <span asp-validation-for="Input.PhoneNumber" style="color:yellow"></span>
+            </span>
+            <br />
+            <br>
+            <span class="eye" onclick="Show1()">
+                <i id="hide1" class="fa fa-eye" style="color: #395B64;"></i>
+                <i id="hide2" class="fa fa-eye-slash" style="color: #395B64;"></i>
+            </span>
+            <span>
+                <input asp-for="Input.Password" type="password" placeholder="Password" style="color: #395B64;" id="myInput" />
+                <span asp-validation-for="Input.Password" style="color:yellow"></span>
+            </span>
+
+            <span class="eye" onclick="Show2()">
+                <i id="hide3" class="fa fa-eye" style="color: #395B64;"></i>
+                <i id="hide4" class="fa fa-eye-slash" style="color: #395B64;"></i>
+            </span>
+            <input asp-for="Input.ConfirmPassword" type="password" placeholder="Re-Password" style="color: #395B64;" id="myInput1" />
+            <span asp-validation-for="Input.ConfirmPassword" style="color:yellow"></span>
+
+            <div asp-validation-summary="All" style="color:yellow"></div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+
+        <a asp-page="./Login" class="ref2" >
+            I Already have an account!
+        </a>
+
+
+        <div class="col-md-6 col-md-offset-2">
+            <section>
+
+
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </section>
+        </div>
+    </div>
+        
+        <script src="~/js/eye.js"></script>
+</body>
+</html>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+    
